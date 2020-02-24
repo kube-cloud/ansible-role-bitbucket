@@ -4,3 +4,4 @@
 *.rej
 *.retry
 __pycache__
+**DS_Store
