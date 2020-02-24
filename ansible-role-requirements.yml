@@ -30,10 +30,8 @@
   src: https://github.com/alvistack/ansible-role-python
   version: develop
 
-- name: git
-  src: https://github.com/alvistack/ansible-role-git
-  version: develop
+- name: jetune.git
+  version: 1.0.0
 
-- name: openjdk
-  src: https://github.com/alvistack/ansible-role-openjdk
-  version: develop
+- name: jetune.java
+  version: 1.0.0

@@ -22,7 +22,27 @@
     - role: locales
     - role: timezone
     - role: python
-    - role: git
-    - role: openjdk
-      openjdk_release: "8"
+    - role: jetune.git
+      vars:
+        vars:
+        v_major: 2
+        v_minor: 20
+        v_patch: 0
+        install_from_source: true
+        from_github: true
+        install_doc: false
+        force_install: true
+    - role: jetune.java
+      vars:
+        from_repo: false
+        implementation: OPENJDK
+        v_major: 8
+        v_minor: 40
+        build: 25
+        os: linux
+        arch: x64
+        date: 10_feb_2015
+        checksum: md5:4980716637f353cfb27467d57f2faf9b
+        alternative_priority: 300
+        is_default: true
     - role: bitbucket

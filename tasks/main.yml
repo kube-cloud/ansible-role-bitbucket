@@ -48,12 +48,33 @@
   ignore_errors: true
   tags: bitbucket
 
+# Find User in Passwd Database
+- name: "Find Bitbucket Owner in passwd database"
+  getent:
+    database: passwd
+    key: "{{ bitbucket_owner }}"
+    fail_key: false
+
+# Find Group in Group Database
+- name: "Find Bitbucket Owner group in groups database"
+  getent:
+    database: group
+    key: "{{ bitbucket_group }}"
+    fail_key: false
+
+- name: "Define commons facts for roles"
+  set_fact:
+    bitbucket_owner_exists: "{{ getent_passwd[bitbucket_owner] != None }}"
+    bitbucket_group_exists: "{{ getent_group[bitbucket_group] != None }}"
+
 - name: groupadd
   group:
     name: "{{ bitbucket_group }}"
     system: true
     state: "present"
   tags: bitbucket
+  when:
+    - not bitbucket_group_exists|bool
 
 - name: useradd
   user:
@@ -65,6 +86,8 @@
     create_home: false
     state: "present"
   tags: bitbucket
+  when:
+    - not bitbucket_owner_exists|bool
 
 - name: prepare directories
   file:
