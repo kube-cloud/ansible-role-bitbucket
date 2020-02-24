@@ -32,8 +32,8 @@ platforms:
       - 'disk_bus = "sata"'
       - 'volume_cache = "none"'
       - 'storage :file, bus: "sata", cache: "none"'
-lint:
-  name: yamllint
+lint: |
+    yamllint .
 dependency:
   name: galaxy
   options:

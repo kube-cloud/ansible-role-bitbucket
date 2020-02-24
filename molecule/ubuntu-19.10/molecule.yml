@@ -32,8 +32,8 @@ platforms:
       - 'disk_bus = "virtio"'
       - 'volume_cache = "none"'
       - 'storage :file, bus: "virtio", cache: "none"'
-lint:
-  name: yamllint
+lint: |
+    yamllint .
 dependency:
   name: galaxy
   options:
