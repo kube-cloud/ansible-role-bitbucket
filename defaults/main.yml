@@ -51,6 +51,7 @@ bitbucket_catalina_connector_proxyname: ""
 bitbucket_catalina_connector_proxyport: ""
 bitbucket_catalina_connector_scheme: "http"
 bitbucket_catalina_connector_secure: "false"
+bitbucket_catalina_connector_port: 8080
 bitbucket_catalina_context_path: "/"
 
 # Flag to generate or not the bitbucket properties file

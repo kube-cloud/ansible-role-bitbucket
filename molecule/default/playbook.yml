@@ -27,6 +27,7 @@
         bitbucket_catalina_connector_scheme: "https"
         bitbucket_catalina_connector_secure: "true"
         bitbucket_catalina_context_path: "/"
+        bitbucket_catalina_connector_port: 8080
         bitbucket_properties_file_generation: true
         bitbucket_extra_properties:
           - plugin.auth-crowd.sso.enabled: false
