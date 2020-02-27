@@ -30,12 +30,21 @@
         bitbucket_catalina_connector_port: 8080
         bitbucket_properties_file_generation: true
         bitbucket_extra_properties:
-          - plugin.auth-crowd.sso.enabled: false
-          - avatar.gravatar.default: "mm"
-          - avatar.max.size: 1048576
-          - db.pool.size.idle: 0
-          - db.pool.size.max: 80
-          - jmx.enabled: true
-          - page.max.branches: 100
-          - page.max.commits: 100
-          - password.reset.validity.period: 4320
+          - key: "plugin.auth-crowd.sso.enabled"
+            value: false
+          - key: "avatar.gravatar.default"
+            value: "mm"
+          - key: "avatar.max.size"
+            value: 1048576
+          - key: "db.pool.size.idle"
+            value: 0
+          - key: "db.pool.size.max"
+            value: 80
+          - key: "jmx.enabled"
+            value: true
+          - key: "page.max.branches"
+            value: 100
+          - key: "page.max.commits"
+            value: 100
+          - key: "password.reset.validity.period"
+            value: 4320

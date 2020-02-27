@@ -62,19 +62,32 @@ bitbucket_properties_file_name: "bitbucket.properties"
 
 # Bitbucket extra properties
 bitbucket_extra_properties: []
-# - plugin.auth-crowd.sso.enabled: false
-# - avatar.gravatar.default: "mm"
-# - avatar.max.size: 1048576
-# - db.pool.size.idle: 0
-# - db.pool.size.max: 80
-# - jdbc.driver=com.mysql.Driver
-# - jdbc.url=jdbc:mysql://localhost:3306/bitbucket
-# - jdbc.user=bitbucket
-# - jdbc.password=bitbucket
-# - jmx.enabled: true
-# - page.max.branches: 100
-# - page.max.commits: 100
-# - password.reset.validity.period: 4320
+# - key: plugin.auth-crowd.sso.enabled
+#   value: false
+# - key: avatar.gravatar.default
+#   value: "mm"
+# - key: avatar.max.size
+#   value: 1048576
+# - key: db.pool.size.idle
+#   value: 0
+# - key: db.pool.size.max
+#   value: 80
+# - key: jdbc.driver
+#   value: com.mysql.Driver
+# - key: jdbc.url
+#   value: jdbc:mysql://localhost:3306/bitbucket
+# - key: jdbc.user
+#   value: bitbucket
+# - key: jdbc.password
+#   value: bitbucket
+# - key: jmx.enabled
+#   value: true
+# - key: page.max.branches
+#   value: 100
+# - key: page.max.commits
+#   value: 100
+# - key: password.reset.validity.period
+#   value: 4320
 # .....
 
 # Atlassian Support recommended JVM arguments.
