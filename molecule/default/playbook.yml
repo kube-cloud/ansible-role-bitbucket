@@ -1,0 +1,40 @@
+---
+
+# (c) Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- hosts: all
+  become: true
+  tasks:
+
+    - name: "Include bitbucket role"
+      import_role:
+        name: ansible-role-bitbucket
+      vars:
+        bitbucket_jvm_minimum_memory: "256m"
+        bitbucket_jvm_maximum_memory: "512m"
+        bitbucket_catalina_connector_scheme: "https"
+        bitbucket_catalina_connector_secure: "true"
+        bitbucket_catalina_context_path: "/"
+        bitbucket_properties_file_generation: true
+        bitbucket_extra_properties:
+          - plugin.auth-crowd.sso.enabled: false
+          - avatar.gravatar.default: "mm"
+          - avatar.max.size: 1048576
+          - db.pool.size.idle: 0
+          - db.pool.size.max: 80
+          - jmx.enabled: true
+          - page.max.branches: 100
+          - page.max.commits: 100
+          - password.reset.validity.period: 4320

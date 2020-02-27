@@ -114,8 +114,6 @@
   tags: bitbucket
 
 - name: download archive
-  vars:
-    ansible_python_interpreter: "python3"
   get_url:
     url: "{{ item.url }}"
     dest: "{{ item.dest }}"
@@ -240,6 +238,77 @@
       group: "{{ bitbucket_group }}"
       mode: "0755"
   tags: bitbucket
+
+- name: Generate bitbucket propertie file with initial content ({{ bitbucket_properties_file_path }})
+  blockinfile:
+    path: "{{ bitbucket_home }}/shared/{{ bitbucket_properties_file_name }}"
+    create: true
+    block: |
+      server.port={{ bitbucket_http_port }}
+      server.secure={{ bitbucket_catalina_connector_secure }}
+      server.scheme={{ bitbucket_catalina_connector_scheme }}
+    owner: "{{ bitbucket_owner }}"
+    group: "{{ bitbucket_group }}"
+    mode: "0755"
+    state: present
+  tags:
+    - molecule-idempotence-notest
+  when:
+    - bitbucket_properties_file_generation is defined
+    - bitbucket_properties_file_generation|bool
+
+# Add Proxy properties
+- name: Add Proxy name property if exists
+  lineinfile:
+    dest: "{{ bitbucket_home }}/shared/{{ bitbucket_properties_file_name }}"
+    regexp: "^{{ server.proxy-name }}=.*$"
+    line: "{{ server.proxy-name }}={{ bitbucket_catalina_connector_proxyname }}"
+    owner: "{{ bitbucket_owner }}"
+    group: "{{ bitbucket_group }}"
+    mode: "0755"
+    state: present
+  tags:
+    - molecule-idempotence-notest
+  when:
+    - bitbucket_properties_file_generation is defined
+    - bitbucket_properties_file_generation|bool
+    - bitbucket_catalina_connector_proxyname is defined
+    - bitbucket_catalina_connector_proxyname | length > 0
+
+# Add Proxy port properties
+- name: Add Proxy port property if exists
+  lineinfile:
+    dest: "{{ bitbucket_home }}/shared/{{ bitbucket_properties_file_name }}"
+    regexp: "^{{ server.proxy-port }}=.*$"
+    line: "{{ server.proxy-port }}={{ bitbucket_catalina_connector_proxyport }}"
+    owner: "{{ bitbucket_owner }}"
+    group: "{{ bitbucket_group }}"
+    mode: "0755"
+    state: present
+  tags:
+    - molecule-idempotence-notest
+  when:
+    - bitbucket_properties_file_generation is defined
+    - bitbucket_properties_file_generation|bool
+    - bitbucket_catalina_connector_proxyport is defined
+    - bitbucket_catalina_connector_proxyport | length > 0
+
+# Add other properties if exists
+- name: Add other properties if exists
+  lineinfile:
+    dest: "{{ bitbucket_home }}/shared/{{ bitbucket_properties_file_name }}"
+    regexp: "^{{ item.key }}=.*$"
+    line: "{{ item.key }}={{ item.value }}"
+    owner: "{{ bitbucket_owner }}"
+    group: "{{ bitbucket_group }}"
+    mode: "0755"
+    state: present
+  loop: "{{ bitbucket_extra_properties }}"
+  tags:
+    - molecule-idempotence-notest
+  when:
+    - bitbucket_properties_file_generation is defined
+    - bitbucket_properties_file_generation|bool
 
 - name: flush handlers
   meta: flush_handlers
