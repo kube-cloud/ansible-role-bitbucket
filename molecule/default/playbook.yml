@@ -18,12 +18,6 @@
   become: true
   tasks:
 
-    # Initialize ansible python interpreter
-    - name: "Set discovered Ansible Python interpreter."
-      set_fact:
-        ansible_python_interpreter: "{{ ansible_facts.python.executable }}"
-      when: ansible_python_interpreter is not defined
-
     - name: "Include bitbucket role"
       import_role:
         name: ansible-role-bitbucket
@@ -38,7 +32,7 @@
         bitbucket_home: "/var/atlassian/applicationdata/bitbucket"
         bitbucket_extra_properties:
           - key: "plugin.auth-crowd.sso.enabled"
-            value: false
+            value: "false"
           - key: "avatar.gravatar.default"
             value: "mm"
           - key: "avatar.max.size"

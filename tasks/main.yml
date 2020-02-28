@@ -66,6 +66,8 @@
   set_fact:
     bitbucket_owner_exists: "{{ getent_passwd[bitbucket_owner] != None }}"
     bitbucket_group_exists: "{{ getent_group[bitbucket_group] != None }}"
+    _bitbucket_create_home: "{{ '--create-home' if bitbucket_create_home else '' }}"
+    _bitbucket_owner_system: "{{ '--system' if bitbucket_owner_system else '' }}"
 
 - name: groupadd
   group:
@@ -77,15 +79,13 @@
     - not bitbucket_group_exists|bool
 
 - name: useradd
-  user:
-    name: "{{ bitbucket_owner }}"
-    group: "{{ bitbucket_group }}"
-    home: "{{ bitbucket_home }}"
-    shell: "/usr/sbin/nologin"
-    system: true
-    create_home: false
-    state: present
-  tags: bitbucket
+  shell:
+  args:
+    cmd: "useradd {{ bitbucket_owner }} --home {{ bitbucket_home }} --shell {{ bitbucket_shell }} \
+     -g {{ bitbucket_group }} {{ _bitbucket_owner_system }} {{ _bitbucket_create_home }}"
+  tags:
+    - bitbucket
+    - molecule-idempotence-notest
   when:
     - not bitbucket_owner_exists|bool
 
@@ -239,7 +239,7 @@
       mode: "0755"
   tags: bitbucket
 
-- name: Generate bitbucket propertie file with initial content ({{ bitbucket_properties_file_path }})
+- name: Generate bitbucket propertie file with initial content ({{ bitbucket_properties_file_name }})
   blockinfile:
     path: "{{ bitbucket_home }}/shared/{{ bitbucket_properties_file_name }}"
     create: true
@@ -258,11 +258,30 @@
     - bitbucket_properties_file_generation is defined
     - bitbucket_properties_file_generation|bool
 
+# Add other properties if exists
+- name: Add other properties if exists
+  lineinfile:
+    dest: "{{ bitbucket_home }}/shared/{{ bitbucket_properties_file_name }}"
+    regexp: "^{{ item.key }}=.*$"
+    insertafter: "server.scheme"
+    line: "{{ item.key }}={{ item.value }}"
+    owner: "{{ bitbucket_owner }}"
+    group: "{{ bitbucket_group }}"
+    mode: "0755"
+    state: present
+  loop: "{{ bitbucket_extra_properties }}"
+  tags:
+    - molecule-idempotence-notest
+  when:
+    - bitbucket_properties_file_generation is defined
+    - bitbucket_properties_file_generation|bool
+
 # Add Proxy properties
 - name: Add Proxy name property if exists
   lineinfile:
     dest: "{{ bitbucket_home }}/shared/{{ bitbucket_properties_file_name }}"
     regexp: "^{{ server.proxy-name }}=.*$"
+    insertafter: "server.scheme"
     line: "{{ server.proxy-name }}={{ bitbucket_catalina_connector_proxyname }}"
     owner: "{{ bitbucket_owner }}"
     group: "{{ bitbucket_group }}"
@@ -281,6 +300,7 @@
   lineinfile:
     dest: "{{ bitbucket_home }}/shared/{{ bitbucket_properties_file_name }}"
     regexp: "^{{ server.proxy-port }}=.*$"
+    insertafter: "server.scheme"
     line: "{{ server.proxy-port }}={{ bitbucket_catalina_connector_proxyport }}"
     owner: "{{ bitbucket_owner }}"
     group: "{{ bitbucket_group }}"
@@ -293,23 +313,6 @@
     - bitbucket_properties_file_generation|bool
     - bitbucket_catalina_connector_proxyport is defined
     - bitbucket_catalina_connector_proxyport | length > 0
-
-# Add other properties if exists
-- name: Add other properties if exists
-  lineinfile:
-    dest: "{{ bitbucket_home }}/shared/{{ bitbucket_properties_file_name }}"
-    regexp: "^{{ item.key }}=.*$"
-    line: "{{ item.key }}={{ item.value }}"
-    owner: "{{ bitbucket_owner }}"
-    group: "{{ bitbucket_group }}"
-    mode: "0755"
-    state: present
-  loop: "{{ bitbucket_extra_properties }}"
-  tags:
-    - molecule-idempotence-notest
-  when:
-    - bitbucket_properties_file_generation is defined
-    - bitbucket_properties_file_generation|bool
 
 - name: flush handlers
   meta: flush_handlers

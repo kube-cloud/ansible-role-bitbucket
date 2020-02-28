@@ -35,6 +35,9 @@ postgresql_jdbc_download: "{{ _postgresql_jdbc_download[postgresql_jdbc_version]
 # Owner and group for Bitbucket.
 bitbucket_owner: "bitbucket"
 bitbucket_group: "bitbucket"
+bitbucket_shell: "/usr/sbin/nologin"
+bitbucket_create_home: false
+bitbucket_owner_system: true
 
 # Bitbucket home directory.
 bitbucket_home: "/var/atlassian/application-data/bitbucket"
