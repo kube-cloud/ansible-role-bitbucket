@@ -239,6 +239,27 @@
       mode: "0755"
   tags: bitbucket
 
+# Ensure that shared directory exists
+- name: Ensure that shared directory exists
+  file:
+    path: "{{ bitbucket_home }}/shared"
+    owner: "{{ bitbucket_owner }}"
+    group: "{{ bitbucket_group }}"
+    mode: "0755"
+    state: directory
+  when:
+    - bitbucket_properties_file_generation is defined
+    - bitbucket_properties_file_generation|bool
+
+# Ensure that property file dont exists
+- name: Ensure that property file dont exists
+  file:
+    path: "{{ bitbucket_home }}/shared/{{ bitbucket_properties_file_name }}"
+    state: absent
+  when:
+    - bitbucket_properties_file_generation is defined
+    - bitbucket_properties_file_generation|bool
+
 - name: Generate bitbucket propertie file with initial content ({{ bitbucket_properties_file_name }})
   blockinfile:
     path: "{{ bitbucket_home }}/shared/{{ bitbucket_properties_file_name }}"
@@ -246,7 +267,7 @@
     block: |
       server.context-path={{ bitbucket_catalina_context_path }}
       server.port={{ bitbucket_catalina_connector_port }}
-      server.secure={{ bitbucket_catalina_connector_secure }}
+      server.secure={{ bitbucket_catalina_connector_secure | lower }}
       server.scheme={{ bitbucket_catalina_connector_scheme }}
     owner: "{{ bitbucket_owner }}"
     group: "{{ bitbucket_group }}"
@@ -275,14 +296,15 @@
   when:
     - bitbucket_properties_file_generation is defined
     - bitbucket_properties_file_generation|bool
+    - bitbucket_extra_properties | length > 0
 
 # Add Proxy properties
 - name: Add Proxy name property if exists
   lineinfile:
     dest: "{{ bitbucket_home }}/shared/{{ bitbucket_properties_file_name }}"
-    regexp: "^{{ server.proxy-name }}=.*$"
+    regexp: ".*proxy-name=.*$"
     insertafter: "server.scheme"
-    line: "{{ server.proxy-name }}={{ bitbucket_catalina_connector_proxyname }}"
+    line: "server.proxy-name={{ bitbucket_catalina_connector_proxyname }}"
     owner: "{{ bitbucket_owner }}"
     group: "{{ bitbucket_group }}"
     mode: "0755"
@@ -299,9 +321,9 @@
 - name: Add Proxy port property if exists
   lineinfile:
     dest: "{{ bitbucket_home }}/shared/{{ bitbucket_properties_file_name }}"
-    regexp: "^{{ server.proxy-port }}=.*$"
+    regexp: ".*proxy-port=.*$"
     insertafter: "server.scheme"
-    line: "{{ server.proxy-port }}={{ bitbucket_catalina_connector_proxyport }}"
+    line: "server.proxy-port={{ bitbucket_catalina_connector_proxyport }}"
     owner: "{{ bitbucket_owner }}"
     group: "{{ bitbucket_group }}"
     mode: "0755"
@@ -312,7 +334,6 @@
     - bitbucket_properties_file_generation is defined
     - bitbucket_properties_file_generation|bool
     - bitbucket_catalina_connector_proxyport is defined
-    - bitbucket_catalina_connector_proxyport | length > 0
 
 - name: flush handlers
   meta: flush_handlers
