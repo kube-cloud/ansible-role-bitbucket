@@ -247,6 +247,8 @@
     group: "{{ bitbucket_group }}"
     mode: "0755"
     state: directory
+  tags:
+    - molecule-idempotence-notest
   when:
     - bitbucket_properties_file_generation is defined
     - bitbucket_properties_file_generation|bool
@@ -256,6 +258,8 @@
   file:
     path: "{{ bitbucket_home }}/shared/{{ bitbucket_properties_file_name }}"
     state: absent
+  tags:
+    - molecule-idempotence-notest
   when:
     - bitbucket_properties_file_generation is defined
     - bitbucket_properties_file_generation|bool
