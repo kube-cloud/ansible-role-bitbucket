@@ -35,6 +35,9 @@ postgresql_jdbc_download: "{{ _postgresql_jdbc_download[postgresql_jdbc_version]
 # Owner and group for Bitbucket.
 bitbucket_owner: "bitbucket"
 bitbucket_group: "bitbucket"
+bitbucket_shell: "/usr/sbin/nologin"
+bitbucket_create_home: false
+bitbucket_owner_system: true
 
 # Bitbucket home directory.
 bitbucket_home: "/var/atlassian/application-data/bitbucket"
@@ -47,11 +50,48 @@ bitbucket_jvm_minimum_memory: "1024m"
 bitbucket_jvm_maximum_memory: "1024m"
 
 # Proxy and context path setup.
-bitbucket_catalina_connector_proxyname: ~
-bitbucket_catalina_connector_proxyport: ~
+bitbucket_catalina_connector_proxyname: ""
+bitbucket_catalina_connector_proxyport: ""
 bitbucket_catalina_connector_scheme: "http"
 bitbucket_catalina_connector_secure: "false"
+bitbucket_catalina_connector_port: 8080
 bitbucket_catalina_context_path: "/"
+
+# Flag to generate or not the bitbucket properties file
+bitbucket_properties_file_generation: true
+
+# Bitbucket properties file path
+bitbucket_properties_file_name: "bitbucket.properties"
+
+# Bitbucket extra properties
+bitbucket_extra_properties: []
+# - key: plugin.auth-crowd.sso.enabled
+#   value: false
+# - key: avatar.gravatar.default
+#   value: "mm"
+# - key: avatar.max.size
+#   value: 1048576
+# - key: db.pool.size.idle
+#   value: 0
+# - key: db.pool.size.max
+#   value: 80
+# - key: jdbc.driver
+#   value: com.mysql.Driver
+# - key: jdbc.url
+#   value: jdbc:mysql://localhost:3306/bitbucket
+# - key: jdbc.user
+#   value: bitbucket
+# - key: jdbc.password
+#   value: bitbucket
+# - key: jmx.enabled
+#   value: true
+# - key: page.max.branches
+#   value: 100
+# - key: page.max.commits
+#   value: 100
+# - key: password.reset.validity.period
+#   value: 4320
+# .....
 
 # Atlassian Support recommended JVM arguments.
 bitbucket_jvm_support_recommended_args: >-

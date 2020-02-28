@@ -1,9 +1,9 @@
-# Ansible Role for Bitbucket
+# Ansible Role for Bitbucket [Fork From alvistack, Thank's]
 
-[![Travis](https://img.shields.io/travis/alvistack/ansible-role-bitbucket.svg)](https://travis-ci.org/alvistack/ansible-role-bitbucket)
-[![GitHub release](https://img.shields.io/github/release/alvistack/ansible-role-bitbucket.svg)](https://github.com/alvistack/ansible-role-bitbucket)
-[![GitHub license](https://img.shields.io/github/license/alvistack/ansible-role-bitbucket.svg)](https://github.com/alvistack/ansible-role-bitbucket/blob/master/LICENSE)
-[![Ansible Role](https://img.shields.io/badge/galaxy-alvistack.bitbucket-blue.svg)](https://galaxy.ansible.com/alvistack/bitbucket)
+[![Travis](https://img.shields.io/travis/kube-cloud/ansible-role-bitbucket.svg)](https://travis-ci.org/kube-cloud/ansible-role-bitbucket)
+[![GitHub release](https://img.shields.io/github/release/kube-cloud/ansible-role-bitbucket.svg)](https://github.com/kube-cloud/ansible-role-bitbucket)
+[![GitHub license](https://img.shields.io/github/license/kube-cloud/ansible-role-bitbucket.svg)](https://github.com/kube-cloud/ansible-role-bitbucket/blob/master/LICENSE)
+[![Ansible Role](https://img.shields.io/badge/galaxy-kube-cloud.bitbucket-blue.svg)](https://galaxy.ansible.com/kube-cloud/bitbucket)
 
 Ansible Role for Atlassian Bitbucket Installation.
 
