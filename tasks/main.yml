@@ -71,7 +71,7 @@
   group:
     name: "{{ bitbucket_group }}"
     system: true
-    state: "present"
+    state: present
   tags: bitbucket
   when:
     - not bitbucket_group_exists|bool
@@ -84,7 +84,7 @@
     shell: "/usr/sbin/nologin"
     system: true
     create_home: false
-    state: "present"
+    state: present
   tags: bitbucket
   when:
     - not bitbucket_owner_exists|bool

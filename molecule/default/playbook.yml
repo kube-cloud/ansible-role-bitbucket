@@ -18,6 +18,12 @@
   become: true
   tasks:
 
+    # Initialize ansible python interpreter
+    - name: "Set discovered Ansible Python interpreter."
+      set_fact:
+        ansible_python_interpreter: "{{ ansible_facts.python.executable }}"
+      when: ansible_python_interpreter is not defined
+
     - name: "Include bitbucket role"
       import_role:
         name: ansible-role-bitbucket
