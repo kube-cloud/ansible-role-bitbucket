@@ -35,6 +35,7 @@
         bitbucket_catalina_context_path: "/"
         bitbucket_catalina_connector_port: 8080
         bitbucket_properties_file_generation: true
+        bitbucket_home: "/var/atlassian/applicationdata/bitbucket"
         bitbucket_extra_properties:
           - key: "plugin.auth-crowd.sso.enabled"
             value: false
