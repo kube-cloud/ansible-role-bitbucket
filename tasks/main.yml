@@ -68,6 +68,14 @@
     bitbucket_group_exists: "{{ getent_group[bitbucket_group] != None }}"
     _bitbucket_create_home: "{{ '--create-home' if bitbucket_create_home else '' }}"
     _bitbucket_owner_system: "{{ '--system' if bitbucket_owner_system else '' }}"
+    _bitbucket_jdbc_driver: "{{ bitbucket_extra_properties | selectattr('key', 'equalto', 'jdbc.driver')\
+    | map(attribute='value') | list | first | default('') }}"
+    _bitbucket_jdbc_url: "{{ bitbucket_extra_properties | selectattr('key', 'equalto', 'jdbc.url')\
+    | map(attribute='value') | list | first | default('') }}"
+    _bitbucket_jdbc_user: "{{ bitbucket_extra_properties | selectattr('key', 'equalto', 'jdbc.user')\
+    | map(attribute='value') | list | first | default('') }}"
+    _bitbucket_jdbc_password: "{{ bitbucket_extra_properties | selectattr('key', 'equalto', 'jdbc.password')\
+    | map(attribute='value') | list | first | default('') }}"
 
 - name: groupadd
   group:
@@ -109,6 +117,9 @@
       owner: "{{ bitbucket_owner }}"
       group: "{{ bitbucket_group }}"
     - dest: "{{ bitbucket_home }}"
+      owner: "{{ bitbucket_owner }}"
+      group: "{{ bitbucket_group }}"
+    - dest: "{{ bitbucket_backup_home }}"
       owner: "{{ bitbucket_owner }}"
       group: "{{ bitbucket_group }}"
   tags: bitbucket

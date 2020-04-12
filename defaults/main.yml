@@ -54,7 +54,7 @@ bitbucket_catalina_connector_proxyname: ""
 bitbucket_catalina_connector_proxyport: ""
 bitbucket_catalina_connector_scheme: "http"
 bitbucket_catalina_connector_secure: "false"
-bitbucket_catalina_connector_port: 8080
+bitbucket_catalina_connector_port: 7990
 bitbucket_catalina_context_path: "/"
 
 # Flag to generate or not the bitbucket properties file
@@ -100,3 +100,6 @@ bitbucket_jvm_support_recommended_args: >-
 
 # Session timeout.
 bitbucket_session_timeout: "300"
+
+# Bitbucket backup home
+bitbucket_backup_home: "/var/atlassian/application-backup/bitbucket"
